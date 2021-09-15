@@ -5,6 +5,7 @@ import nltk
 from nltk.corpus import stopwords
 import re
 import math
+import string
 stop_words = set(stopwords.words('english'))
 class Math_rubric:
     def __init__(self, qualifiedanswer=None, rubric=None, total_mark=None):
@@ -65,6 +66,10 @@ class Math_rubric:
         return tf_idf_score
 
     def Stem_rules_generation(self, str):
+        str=str.strip(string.punctuation)
+        str=str.replace(',', '')
+        str = str.replace('.', '')
+        str = str.replace(';', '')
         rubirc = []
         # print("qualified answer",doc)
         data_i_j = str.split(";")
@@ -94,7 +99,10 @@ class Math_rubric:
 
 
 if __name__ == '__main__':
-    str="Let f(0)=0 and f(1)=1 then f(n)=f(n-1)+f(n-2)."
+    #str="Let f(0)=0 and f(1)=1 then f(n)=f(n-1)+f(n-2)."
+    #str="According to the condition, a/b+b/a=2; so a^2+b^2=2ab;a^2+ab+b^2=3ab, and a^2+4ab+b^2=6ab; therefore (a^2+ab+b^2)/(a^2+4ab+b^2)=1/2"
+    #str="According to the conditions, we can get a+b=1, a-b=1 or a-b=-1; if a+b=1 and a-b=1, a=1, b=0, a^2019+b^2019=1. Otherwise, a+b=1, a-b=-1, a=0, b=1, a^2019+b^2019=1."
+    str="(x+1)^2=9, we can obtain x+1=3 or x+1=-3, so x=2 or x=-4."
     math_r=Math_rubric()
     rubric1,rules = math_r.Stem_rules_generation(str)
     print(rules)
